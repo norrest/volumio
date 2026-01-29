@@ -13,7 +13,7 @@ if [ "$alsalibver" != "$newveralsalib" ]; then
 
   apt-get -y install automake libtool
 
-  curl -O http://ftp.alsa-project.org/pub/lib/alsa-lib-1.2.15.3.tar.bz2
+  curl -O ftp://ftp.alsa-project.org/pub/lib/alsa-lib-1.2.15.3.tar.bz2
   tar xvjf alsa-lib-1.2.15.3.tar.bz2
 
   cd alsa-lib-1.2.15.3
