@@ -22,12 +22,7 @@ sudo cp -pfR /update/tmpi/usr/ /
 sudo cp -pfR /update/tmpi/50x.html /usr/share/nginx/html/
 sudo cp -pfR /update/tmpi/50x.html /etc/nginx/html/
 sudo bash /sbin/dbupdate
-apt-get -f install
-apt-get -y install cifs-utils
-apt-get install debian-keyring debian-archive-keyring
-apt-get -y update
 apt-get -y install ethtool
-apt-get -y install dos2unix
 sleep 1
 #optionally remove git just to clean things up.
 sudo rm -R /update/tmpi
