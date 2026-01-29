@@ -26,7 +26,6 @@ apt-get -y install ethtool
 sleep 1
 #optionally remove git just to clean things up.
 sudo rm -R /update/tmpi
-sudo rm -R /sbin/dbupdate
 sudo mkdir /var/lib/mpd/playlists/
 sudo chmod -R 777 /var/lib/mpd/playlists/
 sudo mkdir /var/lib/mpd/music/WEBRADIO/
