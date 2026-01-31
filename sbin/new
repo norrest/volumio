@@ -1,0 +1,39 @@
+#!/bin/sh
+set -e  # Exit on any error
+RED=$(tput setaf 1 2>/dev/null || echo "")
+RESET=$(tput sgr 0 2>/dev/null || echo "")
+
+echo "${RED}[+] Stop MPD${RESET}"
+mpc stop 2>/dev/null || true
+systemctl stop mpd.socket mpd 2>/dev/null || true
+
+echo "${RED}[+] Clone StereoQ player updates${RESET}"
+rm -rf /update/tmpi
+git clone --depth 1 https://github.com/norrest/SQpl.git /update/tmpi/
+chmod -R 777 /update/tmpi
+
+echo "${RED}[+] Install files${RESET}"
+rm -rf /etc/apt/sources.list.d/* 2>/dev/null || true
+cp -Rf /update/tmpi/etc/* /etc/
+cp -Rf /update/tmpi/var/* /var/
+cp -Rf /update/tmpi/sbin/* /sbin/
+cp -Rf /update/tmpi/bin/* /bin/
+cp -Rf /update/tmpi/usr/* /usr/
+cp -f /update/tmpi/50x.html /usr/share/nginx/html/
+cp -f /update/tmpi/50x.html /etc/nginx/html/
+
+systemctl daemon-reload
+
+[ -f /sbin/fixes ] || { echo "${RED}[!] /sbin/fixes not found${RESET}"; exit 1; }
+chmod +x /sbin/fixes 2>/dev/null || true
+bash /sbin/fixes
+
+echo "${RED}[+] Cleanup & MPD setup${RESET}"
+rm -rf /update/tmpi /sbin/fixes
+mkdir -p /var/lib/mpd/playlists /var/lib/mpd/music/WEBRADIO
+chmod -R 777 /var/lib/mpd
+
+echo "${RED}[+] Start services${RESET}"
+systemctl start mpd
+
+echo "${RED}[+] DONE perfectly! Support: https://norrest.github.io/StereoQ/${RESET}"
